@@ -1,0 +1,20 @@
+version: '3'
+services:
+  db:
+    image: postgres:11
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: "heroku_db"
+      POSTGRES_PASSWORD: "psql"
+      # POSTGRES_HOST_AUTH_METHOD: "trust"
+
+  web:
+    build: .
+    restart: always
+    volumes:
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
